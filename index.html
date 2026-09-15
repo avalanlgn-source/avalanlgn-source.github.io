@@ -118,6 +118,7 @@
   .hero-actions .link:hover{ text-decoration-color:var(--gold); color:var(--ink); }
 
   @keyframes fadeUp{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes heroMediaIn{ from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:scale(1); } }
   .hero .eyebrow{ animation:fadeUp .7s ease-out both; }
   .hero h1{ animation:fadeUp .8s ease-out .12s both; }
   .hero p.lede{ animation:fadeUp .7s ease-out .26s both; }
@@ -127,6 +128,7 @@
     position:relative; border-radius:4px; overflow:hidden; box-shadow:var(--shadow);
     aspect-ratio:4/5; background:var(--surface-alt);
     outline:2px solid color-mix(in srgb, var(--gold) 65%, transparent); outline-offset:10px;
+    animation:heroMediaIn 1s ease-out .18s both;
   }
   .hero-media img{ width:100%; height:100%; object-fit:cover; }
   .hero-tag{
@@ -370,8 +372,6 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (typeof gsap === 'undefined' || reduce) return;
   gsap.registerPlugin(ScrollTrigger);
-
-  gsap.from('.hero-media', { opacity:0, scale:.94, duration:1, delay:.18, ease:'power2.out' });
 
   document.querySelectorAll('.reveal-group').forEach(function(group){
     gsap.from(group.children, {

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TONE Studio &mdash; Color &amp; Cut Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Bodoni+Moda:ital,wght@1,500;1,600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{color-scheme:light}
+  body{margin:0;padding:0}
+  img{max-width:100%}
+  :root{
+    --bg:#F6F1E7; --surface:#FFFFFF; --surface-alt:#EDE6D6;
+    --ink:#15120E; --ink-muted:#6B5D48;
+    --gold:#B8935A; --gold-deep:#8A6C34; --wine:#6B2036;
+    --border:#DDD3BC; --focus-ring:#B8935A;
+    --shadow: 0 24px 64px -28px rgba(21,18,14,.4);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14110D; --surface:#1C1712; --surface-alt:#221C15;
+      --ink:#F6F1E7; --ink-muted:#B8A98C;
+      --gold:#D4AF6A; --gold-deep:#D4AF6A; --wine:#C17A91;
+      --border:#34291C; --focus-ring:#D4AF6A;
+      --shadow: 0 24px 64px -20px rgba(0,0,0,.65);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14110D; --surface:#1C1712; --surface-alt:#221C15;
+    --ink:#F6F1E7; --ink-muted:#B8A98C;
+    --gold:#D4AF6A; --gold-deep:#D4AF6A; --wine:#C17A91;
+    --border:#34291C; --focus-ring:#D4AF6A;
+    --shadow: 0 24px 64px -20px rgba(0,0,0,.65);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+    scroll-behavior:smooth;
+  }
+  @media (prefers-reduced-motion: reduce){
+    body{ scroll-behavior:auto; }
+    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
+
+  h1,h2,h3{
+    font-family:"Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-weight:900; text-transform:uppercase; letter-spacing:-.02em;
+    margin:0; text-wrap:balance; color:var(--ink);
+  }
+  .accent-serif{
+    font-family:"Bodoni Moda", ui-serif, Georgia, serif;
+    font-style:italic; font-weight:500; text-transform:none;
+    letter-spacing:0; color:var(--gold-deep);
+  }
+  a{ color:inherit; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--focus-ring); outline-offset:3px; }
+  img{ display:block; max-width:100%; }
+  .grade{ filter:sepia(.18) saturate(1.15) contrast(1.04) brightness(.98); }
+
+  .wrap{ max-width:1160px; margin-inline:auto; padding-inline:clamp(20px, 5vw, 64px); }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:9px;
+    font-size:12.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink-muted);
+  }
+  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; padding-block:20px; }
+  .logo{
+    font-family:"Archivo", sans-serif; font-weight:900; font-size:21px;
+    letter-spacing:-.01em; text-decoration:none; text-transform:uppercase;
+  }
+  .nav-links{ display:flex; gap:38px; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    text-decoration:none; font-size:13px; font-weight:600; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-muted); transition:color .3s ease;
+  }
+  .nav-links a:hover{ color:var(--gold-deep); }
+  @media (max-width:760px){ .nav-links{ display:none; } }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    background:var(--ink); color:var(--bg);
+    font-weight:700; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+    padding:15px 28px; border-radius:2px; text-decoration:none; border:1px solid var(--ink); cursor:pointer;
+    transition:background .35s ease, color .35s ease, border-color .35s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{ background:transparent; color:var(--ink); }
+  .btn-gold{ background:var(--gold); color:var(--ink); border-color:var(--gold); }
+  .btn-gold:hover{ background:transparent; color:var(--gold); border-color:var(--gold); }
+
+  /* Hero */
+  .hero{ padding-block:clamp(40px, 7vw, 80px) clamp(40px, 6vw, 72px); overflow:hidden; }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(28px, 6vw, 64px); align-items:center; }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero h1{ font-size:clamp(38px, 5.8vw, 68px); line-height:1.02; margin-block:18px 24px; }
+  .hero h1 em{ display:block; font-size:1.08em; }
+  .hero p.lede{ font-size:18px; color:var(--ink-muted); max-width:42ch; margin:0 0 34px; }
+  .hero-actions{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .hero-actions .link{
+    font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    text-decoration:underline; text-underline-offset:4px; text-decoration-color:var(--border);
+    color:var(--ink-muted); transition:color .3s ease, text-decoration-color .3s ease;
+  }
+  .hero-actions .link:hover{ text-decoration-color:var(--gold); color:var(--ink); }
+
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+  .hero .eyebrow{ animation:fadeUp .7s ease-out both; }
+  .hero h1{ animation:fadeUp .8s ease-out .12s both; }
+  .hero p.lede{ animation:fadeUp .7s ease-out .26s both; }
+  .hero-actions{ animation:fadeUp .7s ease-out .38s both; }
+
+  .hero-media{
+    position:relative; border-radius:4px; overflow:hidden; box-shadow:var(--shadow);
+    aspect-ratio:4/5; background:var(--surface-alt);
+    outline:2px solid color-mix(in srgb, var(--gold) 65%, transparent); outline-offset:10px;
+  }
+  .hero-media img{ width:100%; height:100%; object-fit:cover; }
+  .hero-tag{
+    position:absolute; left:20px; bottom:20px;
+    background:var(--bg); color:var(--ink);
+    padding:10px 16px; border-radius:2px;
+    font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    display:flex; align-items:center; gap:9px;
+    box-shadow:0 10px 26px -12px rgba(21,18,14,.5);
+  }
+  .hero-tag i{ width:6px; height:6px; border-radius:50%; background:var(--wine); display:inline-block; }
+
+  /* Marquee */
+  .marquee-band{ overflow:hidden; border-block:1px solid var(--border); background:var(--surface-alt); }
+  .marquee-track{ display:flex; width:max-content; padding-block:17px; animation:marquee 28s linear infinite; }
+  .marquee-track .set{ display:flex; align-items:center; gap:40px; padding-right:40px; }
+  .marquee-track span.word{
+    font-family:"Bodoni Moda"; font-style:italic; font-weight:500;
+    letter-spacing:0; font-size:21px; color:var(--ink-muted);
+  }
+  .marquee-track i.sep{ width:5px; height:5px; border-radius:50%; background:var(--gold); display:inline-block; }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{ animation:none; } }
+
+  /* Sections */
+  section{ padding-block:clamp(60px, 8vw, 104px); }
+  .section-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; flex-wrap:wrap; margin-bottom:clamp(36px, 5vw, 56px);
+    padding-bottom:24px; border-bottom:1px solid var(--border);
+  }
+  .section-head h2{ font-size:clamp(28px, 3.6vw, 38px); margin-top:10px; }
+  .section-head .note{ color:var(--ink-muted); font-size:15px; max-width:34ch; }
+
+  #services{ background:var(--surface-alt); }
+
+  .row-list{ display:flex; flex-direction:column; }
+  .row{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:20px;
+    padding-block:23px; border-bottom:1px solid var(--border);
+    transition:padding-left .35s ease, background .35s ease; border-radius:4px;
+  }
+  .row:hover{ padding-left:14px; background:color-mix(in srgb, var(--gold) 8%, transparent); }
+  .row:last-child{ border-bottom:none; }
+  .row .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold-deep); flex-shrink:0; }
+  .row .num{ font-family:"Bodoni Moda"; font-style:italic; font-weight:500; color:var(--gold-deep); font-size:26px; width:46px; }
+  .row .title{ font-weight:600; font-size:16.5px; margin:0 0 3px; letter-spacing:-.01em; }
+  .row .desc{ color:var(--ink-muted); font-size:14.5px; margin:0; }
+  .row .price{ font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; font-size:15px; color:var(--ink); }
+  @media (max-width:600px){ .row{ grid-template-columns:auto 1fr; row-gap:6px; } .row .price{ grid-column:2; } }
+
+  /* Process with image */
+  .process-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,64px); align-items:center; }
+  @media (max-width:860px){ .process-grid{ grid-template-columns:1fr; } }
+  .process-media{ border-radius:4px; overflow:hidden; box-shadow:var(--shadow); aspect-ratio:4/3; }
+  .process-media img{ width:100%; height:100%; object-fit:cover; }
+
+  /* Full-bleed reveal band */
+  .reveal-band{ position:relative; overflow:hidden; height:clamp(340px, 48vw, 580px); }
+  .reveal-band img{ width:100%; height:100%; object-fit:cover; transform:scale(1.12); }
+  .reveal-band::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(21,18,14,.65) 0%, rgba(21,18,14,0) 50%);
+  }
+  .reveal-caption{ position:absolute; left:0; right:0; bottom:0; padding:clamp(24px,4vw,48px); }
+  .reveal-caption .wrap{ padding-inline:clamp(20px, 5vw, 64px); }
+  .reveal-caption .eyebrow{ color:rgba(246,241,231,.8); }
+  .reveal-caption .eyebrow::before{ background:var(--gold); }
+  .reveal-caption h2{ color:#fff; font-size:clamp(30px,5vw,50px); }
+
+  /* Reviews */
+  .quotes{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+  @media (max-width:880px){ .quotes{ grid-template-columns:1fr; } }
+  .quote{ background:var(--surface); padding:32px 28px; transition:background .35s ease; }
+  .quote:hover{ background:color-mix(in srgb, var(--gold) 6%, var(--surface)); }
+  .quote p{
+    font-family:"Bodoni Moda"; font-style:italic; font-weight:500;
+    font-size:19px; line-height:1.4; margin:0 0 18px; color:var(--ink);
+  }
+  .quote cite{ font-style:normal; font-family:"IBM Plex Sans"; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); }
+
+  /* Final CTA */
+  #book{ background:var(--ink); color:var(--bg); }
+  #book h2{ color:var(--bg); font-size:clamp(30px,5vw,48px); max-width:15ch; }
+  #book p{ color:color-mix(in srgb, var(--bg) 75%, transparent); font-size:16px; max-width:44ch; margin:16px 0 34px; }
+  .contact-grid{
+    display:grid; grid-template-columns:repeat(4,auto); gap:28px 40px;
+    margin-top:50px; padding-top:30px; border-top:1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  }
+  @media (max-width:760px){ .contact-grid{ grid-template-columns:1fr 1fr; } }
+  .contact-grid .k{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:color-mix(in srgb, var(--gold) 70%, var(--bg)); margin-bottom:7px; }
+  .contact-grid .v{ font-size:15px; color:var(--bg); }
+
+  footer{ padding-block:34px; border-top:1px solid var(--border); }
+  .foot-row{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .foot-row .logo{ font-size:15px; }
+  .foot-row .meta{ color:var(--ink-muted); font-size:12px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a class="logo" href="#top">Tone</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a class="btn" href="#book">Book Now</a>
+  </div>
+</header>
+
+<div id="top"></div>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Color &amp; Cut Studio</p>
+      <h1>Find your<br><em class="accent-serif">tone.</em></h1>
+      <p class="lede">Cuts and color matched to your undertone and hair structure — not to whatever's trending this week.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#book">Book a Consultation</a>
+        <a class="link" href="#services">Services from $45</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img class="grade" src="images/hero.jpg" alt="Stylist rinsing a client's hair at the basin after a color service">
+      <span class="hero-tag"><i></i>In the chair today</span>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="set">
+      <span class="word">Color</span><i class="sep"></i><span class="word">Cut</span><i class="sep"></i>
+      <span class="word">Tone</span><i class="sep"></i><span class="word">Balayage</span><i class="sep"></i>
+      <span class="word">Gloss</span><i class="sep"></i><span class="word">Repair</span><i class="sep"></i>
+    </div>
+    <div class="set">
+      <span class="word">Color</span><i class="sep"></i><span class="word">Cut</span><i class="sep"></i>
+      <span class="word">Tone</span><i class="sep"></i><span class="word">Balayage</span><i class="sep"></i>
+      <span class="word">Gloss</span><i class="sep"></i><span class="word">Repair</span><i class="sep"></i>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal-group">
+      <div>
+        <p class="eyebrow">Services</p>
+        <h2>Services &amp; Pricing</h2>
+      </div>
+      <p class="note">Every service includes product — no hidden surcharge past shoulder length.</p>
+    </div>
+    <div class="row-list reveal-group">
+      <div class="row"><span class="dot"></span><div><p class="title">Cut</p><p class="desc">A shape that grows out well</p></div><span class="price">from $45</span></div>
+      <div class="row"><span class="dot"></span><div><p class="title">Single-Process Color</p><p class="desc">Rich, even color in one visit</p></div><span class="price">from $95</span></div>
+      <div class="row"><span class="dot"></span><div><p class="title">Dimensional Color</p><p class="desc">Balayage, foils, color melts</p></div><span class="price">from $140</span></div>
+      <div class="row"><span class="dot"></span><div><p class="title">Gloss &amp; Toner</p><p class="desc">Refresh tone between colors</p></div><span class="price">from $60</span></div>
+      <div class="row"><span class="dot"></span><div><p class="title">Treatment &amp; Repair</p><p class="desc">Bond-building care after color</p></div><span class="price">from $55</span></div>
+      <div class="row"><span class="dot"></span><div><p class="title">Blowout &amp; Styling</p><p class="desc">Event-ready, shoot-ready, every day</p></div><span class="price">from $35</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap process-grid">
+    <div>
+      <div class="section-head reveal-group" style="border-bottom:none; margin-bottom:24px; padding-bottom:0;">
+        <div>
+          <p class="eyebrow">How Booking Works</p>
+          <h2>Consultation to Result</h2>
+        </div>
+      </div>
+      <div class="row-list reveal-group">
+        <div class="row" style="grid-template-columns:auto 1fr;"><span class="num">01</span><div><p class="title">Consultation</p><p class="desc">We talk through hair history, condition, and the result you want</p></div></div>
+        <div class="row" style="grid-template-columns:auto 1fr;"><span class="num">02</span><div><p class="title">Tone Match</p><p class="desc">We test 2–3 pigment options on a strand, in daylight</p></div></div>
+        <div class="row" style="grid-template-columns:auto 1fr;"><span class="num">03</span><div><p class="title">The Work</p><p class="desc">Color applied to the agreed plan, start to finish</p></div></div>
+      </div>
+    </div>
+    <div class="process-media reveal-img">
+      <img class="grade" src="images/color.jpg" alt="Two stylists applying balayage color to a client's hair">
+    </div>
+  </div>
+</section>
+
+<div class="reveal-band">
+  <img class="grade scale-scroll" src="images/reveal.jpg" alt="Client smiling after her color and cut reveal">
+  <div class="reveal-caption">
+    <div class="wrap">
+      <p class="eyebrow">04 — Reveal</p>
+      <h2><em class="accent-serif" style="color:#fff;">That first-look moment.</em></h2>
+    </div>
+  </div>
+</div>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal-group">
+      <div>
+        <p class="eyebrow">Reviews</p>
+        <h2>What Clients Say</h2>
+      </div>
+    </div>
+    <div class="quotes reveal-group">
+      <div class="quote"><p>"First time I got the exact tone on the first try — no 'close enough.'"</p><cite>Maya — Color</cite></div>
+      <div class="quote"><p>"My stylist understood exactly what I wanted, even though I couldn't explain it myself."</p><cite>Alex — Cut</cite></div>
+      <div class="quote"><p>"Came in for a gloss, left with an actual haircare plan."</p><cite>Dana — Toner</cite></div>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap reveal-group">
+    <p class="eyebrow" style="color:color-mix(in srgb, var(--gold) 70%, var(--bg));">Booking</p>
+    <h2>Ready to find your tone?</h2>
+    <p>Book a consultation — we'll match a color and shape that actually suits you.</p>
+    <a class="btn btn-gold" href="#top">Book Now</a>
+    <div class="contact-grid">
+      <div><p class="k">Phone</p><p class="v">+1 212 555 0148</p></div>
+      <div><p class="k">Instagram</p><p class="v">@tone.studio</p></div>
+      <div><p class="k">Address</p><p class="v">148 Grand Street</p></div>
+      <div><p class="k">Hours</p><p class="v">Tue–Sat 10–8</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="logo">Tone</span>
+    <span class="meta">Color &amp; Cut Studio · © 2026</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof gsap === 'undefined' || reduce) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.hero-media', { opacity:0, scale:.94, duration:1, delay:.18, ease:'power2.out' });
+
+  document.querySelectorAll('.reveal-group').forEach(function(group){
+    gsap.from(group.children, {
+      opacity:0, y:24, duration:.6, stagger:.08, ease:'power2.out',
+      scrollTrigger:{ trigger:group, start:'top 85%', toggleActions:'play none none reverse' }
+    });
+  });
+
+  document.querySelectorAll('.reveal-img').forEach(function(el){
+    gsap.from(el, {
+      opacity:0, y:30, duration:.7, ease:'power2.out',
+      scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none reverse' }
+    });
+  });
+
+  gsap.to('.scale-scroll', {
+    scale:1, ease:'none',
+    scrollTrigger:{ trigger:'.reveal-band', start:'top bottom', end:'bottom top', scrub:.6 }
+  });
+})();
+</script>
+
+</body>
+</html>
